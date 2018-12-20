@@ -24,7 +24,10 @@ html, body {
     font-family: var(--roboto-mono);
 }
 
-
+.svg {
+    height: 24px;
+    margin: 10px;
+}
 /*  MAP STYLES  */
 #map {
     height: 100%;
@@ -61,7 +64,9 @@ html, body {
     margin: 0;
     padding: 0;
 }
-.nav-links li {
+.nav-links li a{
+    display: flex;
+    align-items: center;
     float: right;
     padding: 15px;
 }
