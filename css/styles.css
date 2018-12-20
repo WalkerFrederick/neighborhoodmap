@@ -46,11 +46,8 @@ html, body {
     transform: translateX(-50%);
     z-index: 1000;
 
-    border-radius: 15px;
-    border: 3px solid var(--green);
-    border-right-width: 2px;
-    border-left-width: 2px;
-    background: rgba(82, 155, 114, .5);
+    border-radius: 50px;
+    background: rgba(0,0,0, .8);
     color: white;
 }
 .navbar span{
