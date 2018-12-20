@@ -1,7 +1,16 @@
+
+/*  IMPORT FONTS */
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
+
 /*  GLOBAL VARIABLES  */
 
 :root {
-    --gray: #e8e8e8;
+    --gray: #e4e4e4;
+    --green: rgb(82, 155, 114);
+    --red: rgb(170, 51, 47);
+
+    --roboto-mono: 'Roboto Mono', monospace;
 }
 
 
@@ -12,12 +21,52 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    font-family: var(--roboto-mono);
 }
 
 
 /*  MAP STYLES  */
 #map {
     height: 100%;
+}
+
+/*  NAVBAR  */
+
+.navbar {
+    height: 60px;
+    width: 90%;
+    padding: 0 30px;
+
+    display: flex;
+    align-items: center;
+
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+
+    border-radius: 15px;
+    border: 3px solid var(--green);
+    border-right-width: 2px;
+    border-left-width: 2px;
+    background: rgba(82, 155, 114, .5);
+    color: white;
+}
+.navbar span{
+    font-size: 1rem;
+    font-weight: 600;
+}
+.nav-links {
+    width: 100%;
+    justify-items: right;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.nav-links li {
+    float: right;
+    padding: 15px;
 }
 
 /* */
