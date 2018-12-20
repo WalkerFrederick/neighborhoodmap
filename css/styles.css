@@ -1,0 +1,23 @@
+/*  GLOBAL VARIABLES  */
+
+:root {
+    --gray: #e8e8e8;
+}
+
+
+/*  PAGE-WIDE STYLES  */
+
+html, body {
+    background: var(--gray);
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+/*  MAP STYLES  */
+#map {
+    height: 100%;
+}
+
+/* */
