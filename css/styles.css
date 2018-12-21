@@ -77,17 +77,15 @@ a {
     margin: 0;
     padding: 0;
 }
-
-.nav-link {
+.nav-link{
     display: flex;
     align-items: center;
     float: right;
     color: white;
     padding: 0 15px;
 }
-
-.nav-link:hover {
-    background: rgba(0, 0, 0, .5);
+.nav-link:hover{
+    background: rgba(0,0,0, .5);
     border-radius: 50px;
     cursor: pointer;
 
@@ -95,6 +93,7 @@ a {
 
 
 /* */
+
 
 .speech-bubble {
     background: #000;
@@ -115,7 +114,6 @@ a {
 .speech-bubble p {
     margin: 0 0 10px;
 }
-
 .speech-bubble p:last-of-type {
     margin-bottom: 0;
 }

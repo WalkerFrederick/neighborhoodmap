@@ -12,7 +12,10 @@ const GoogleAPIurl =    'https://maps.googleapis.com/maps/api/js?key=' +
 
 var map;
 
-let aboutBubble = document.getElementById('aboutBubble');
+document.getElementById('aboutBubble').style.visibility = 'hidden';
+document.getElementById('filterBubble').style.visibility = 'hidden';
+document.getElementById('favoriteBubble').style.visibility = 'hidden';
+
 let filterBubble = document.getElementById('nav-ask');
 let favoritesBubble = document.getElementById('nav-ask');
 
