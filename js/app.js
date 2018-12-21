@@ -10,12 +10,12 @@
 //Google API Key AIzaSyAYCbLWQnPsQ4oVA-aKScMVuw-aHOsNOdA
 
 const YELP_KEY = 'Bearer TVtMc88xqJ8TXDzfM3_rMKVdDwtr3mZYelU2uQtL-vFOLw5UHR9WhMI7FTY0eR5xbt4XrOrWXL4dQntTjXPWQc5PLmvubaitZsm7_iNSJ0W2G9c0WCiTEYqKk2ocXHYx';
-
+const alpharettaCenter = {lat: 34.0754, lng: -84.2941};
 
 // Get Yelp Data
 function loadYelpData() {
     let xhttp = new XMLHttpRequest();
-    let searchURL = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?latitude=37&longitude=-122';
+    let searchURL = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?latitude=' + alpharettaCenter.lat + '&longitude=' + alpharettaCenter.lng;
 
     yelpResponseListener = function() {
         console.log(this)
@@ -55,7 +55,7 @@ function showBubble(bubble) {
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 34.0754, lng: -84.2941},
+        center: alpharettaCenter,
         zoom: 16,
         disableDefaultUI: true,
         clickableIcons: false,
