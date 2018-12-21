@@ -10,8 +10,22 @@ const GoogleAPIurl =    'https://maps.googleapis.com/maps/api/js?key=' +
                         'AIzaSyAYCbLWQnPsQ4oVA-aKScMVuw-aHOsNOdA' +
                         '&callback=initMap';
 
-
 var map;
+
+let aboutBubble = document.getElementById('aboutBubble');
+let filterBubble = document.getElementById('nav-ask');
+let favoritesBubble = document.getElementById('nav-ask');
+
+function showBubble(bubble) {
+    console.log(bubble.childNodes[2]);
+    if (bubble.childNodes[2].style.visibility == 'hidden') {
+        bubble.childNodes[2].style.visibility = 'visible';
+    }
+    else {
+        bubble.childNodes[2].style.visibility = 'hidden';
+    }
+}
+
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 34.0754, lng: -84.2941},
@@ -299,7 +313,7 @@ function initMap() {
 }
 
 
-var mapViewModel = {
+let mapViewModel = {
     personName: 'James',
     personAge: 123
 };

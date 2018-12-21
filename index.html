@@ -6,16 +6,27 @@
     <meta name="description" content="Free Web tutorials">
     <meta name="keywords" content="HTML,CSS,XML,JavaScript">
     <meta name="author" content="John Doe">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
 <nav class="navbar">
     <h1>Alpharetta</h1>
     <ul class="nav-links">
-        <li><a><img class="svg" src="img/list.svg">Favorites</a></li>
-        <li><a><img class="svg" src="img/filter.svg">Filter</a></li>
-        <li><a><img class="svg" src="img/info.svg">About</a></li>
+        <li><a class="nav-link"><img class="svg" src="img/like.svg">Favorites<img class="svg arrow" src="img/arrow.svg"></a>
+        </li>
+        <li><a class="nav-link"><img class="svg" src="img/filter.svg">Filter<img class="svg arrow" src="img/arrow.svg"></a>
+        </li>
+        <li onclick="showBubble(this)"><a class="nav-link"><img class="svg" src="img/info.svg">About</a>
+            <div id="aboutBubble" class="speech-bubble">
+                <p><strong>Map of Alpharetta</strong></p>
+                <p>This application was built for the Udacity Front-End Nanodegree program. It was built by
+                    <a target="_blank" href="https://walkerfrederick.com/">Walker Frederick</a> and if you want to see
+                    the source code, feel free to check-out the Github repo <a target="_blank"
+                                                                               href="https://github.com/WalkerFrederick/neighborhoodmap">Here!</a>
+                </p>
+            </div>
+        </li>
     </ul>
 
 </nav>

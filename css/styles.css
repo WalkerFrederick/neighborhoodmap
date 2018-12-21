@@ -24,14 +24,27 @@ html, body {
     font-family: var(--roboto-mono);
 }
 
+a {
+    color: #7FDBFF;
+
+}
+
 .svg {
     height: 24px;
     margin: 10px;
 }
+
+.arrow {
+    height: 12px;
+}
+
+
 /*  MAP STYLES  */
+
 #map {
     height: 100%;
 }
+
 
 /*  NAVBAR  */
 
@@ -64,11 +77,54 @@ html, body {
     margin: 0;
     padding: 0;
 }
-.nav-links li a{
+
+.nav-link {
     display: flex;
     align-items: center;
     float: right;
-    padding: 15px;
+    color: white;
+    padding: 0 15px;
 }
 
+.nav-link:hover {
+    background: rgba(0, 0, 0, .5);
+    border-radius: 50px;
+    cursor: pointer;
+
+}
+
+
 /* */
+
+.speech-bubble {
+    background: #000;
+    z-index: 1000;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    line-height: 1.3;
+    margin: 0 auto 40px;
+    max-width: 350px;
+    padding: 15px;
+    position: fixed;
+    top: 70px;
+    right: 380px;
+    visibility: hidden;
+}
+
+.speech-bubble p {
+    margin: 0 0 10px;
+}
+
+.speech-bubble p:last-of-type {
+    margin-bottom: 0;
+}
+
+.speech-bubble::after {
+    border-right: 30px solid transparent;
+    border-bottom: 30px solid #000;
+    top: -20px;
+    content: "";
+    position: absolute;
+    right: 20px;
+}
