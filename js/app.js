@@ -1,23 +1,47 @@
+//TODO
+//1. Change Favorites to just Locals
+//2. KnockoutJS baby
+//3. ERROR messages that are user facing
+//4. MAP markers
+//5. MOBILE MOBILE MOBILE
+
+
+
 //Google API Key AIzaSyAYCbLWQnPsQ4oVA-aKScMVuw-aHOsNOdA
 
-
-//  XHR
-var xhttp = new XMLHttpRequest();
+const YELP_KEY = 'Bearer TVtMc88xqJ8TXDzfM3_rMKVdDwtr3mZYelU2uQtL-vFOLw5UHR9WhMI7FTY0eR5xbt4XrOrWXL4dQntTjXPWQc5PLmvubaitZsm7_iNSJ0W2G9c0WCiTEYqKk2ocXHYx';
 
 
-//My Google API key
-const GoogleAPIurl =    'https://maps.googleapis.com/maps/api/js?key=' +
-                        'AIzaSyAYCbLWQnPsQ4oVA-aKScMVuw-aHOsNOdA' +
-                        '&callback=initMap';
+// Get Yelp Data
+function loadYelpData() {
+    let xhttp = new XMLHttpRequest();
+    let searchURL = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?latitude=37&longitude=-122';
+
+    yelpResponseListener = function() {
+        console.log(this)
+        console.log(JSON.parse(this.responseText));
+    }
+
+    xhttp.addEventListener("load", yelpResponseListener);
+    xhttp.open('GET', searchURL)
+    xhttp.setRequestHeader('Authorization', YELP_KEY)
+    xhttp.send();
+    xhttp.onload = function () {
+
+    }
+    xhttp.onerror = function () {
+    };
+}
+
+loadYelpData();
+
+
 
 var map;
 
 document.getElementById('aboutBubble').style.visibility = 'hidden';
 document.getElementById('filterBubble').style.visibility = 'hidden';
 document.getElementById('favoriteBubble').style.visibility = 'hidden';
-
-let filterBubble = document.getElementById('nav-ask');
-let favoritesBubble = document.getElementById('nav-ask');
 
 function showBubble(bubble) {
     if (bubble.childNodes[2].style.visibility == 'hidden') {
