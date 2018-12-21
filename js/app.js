@@ -20,9 +20,9 @@ let filterBubble = document.getElementById('nav-ask');
 let favoritesBubble = document.getElementById('nav-ask');
 
 function showBubble(bubble) {
-    console.log(bubble.childNodes[2]);
     if (bubble.childNodes[2].style.visibility == 'hidden') {
         bubble.childNodes[2].style.visibility = 'visible';
+
     }
     else {
         bubble.childNodes[2].style.visibility = 'hidden';

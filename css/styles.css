@@ -29,6 +29,7 @@ a {
 
 }
 
+
 .svg {
     height: 24px;
     margin: 10px;
@@ -46,7 +47,7 @@ a {
 }
 
 
-/*  NAVBAR  */
+/*  NAVBAR STYLES  */
 
 .navbar {
     height: 60px;
@@ -92,7 +93,7 @@ a {
 }
 
 
-/* */
+/*  SPEECH BUBBLE STYLES  */
 
 
 .speech-bubble {
@@ -106,16 +107,22 @@ a {
     max-width: 350px;
     padding: 15px;
     position: fixed;
-    top: 70px;
-    right: 380px;
     visibility: hidden;
 }
 
-.speech-bubble p {
-    margin: 0 0 10px;
+#aboutBubble {
+    top: 70px;
+    right: 365px;
 }
-.speech-bubble p:last-of-type {
-    margin-bottom: 0;
+
+#filterBubble {
+    top: 70px;
+    right: 220px;
+}
+
+#favoriteBubble {
+    top: 70px;
+    right: 15px;
 }
 
 .speech-bubble::after {
@@ -125,4 +132,11 @@ a {
     content: "";
     position: absolute;
     right: 20px;
+}
+
+.speech-bubble p {
+    margin: 0 0 10px;
+}
+.speech-bubble p:last-of-type {
+    margin-bottom: 0;
 }
