@@ -1,5 +1,4 @@
 //TODO
-//1. Change Favorites to just Locals
 //2. KnockoutJS baby
 //3. ERROR messages that are user facing
 //4. MAP markers
@@ -15,11 +14,11 @@ const alpharettaCenter = {lat: 34.0754, lng: -84.2941};
 // Get Yelp Data
 function loadYelpData() {
     let xhttp = new XMLHttpRequest();
-    let searchURL = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?latitude=' + alpharettaCenter.lat + '&longitude=' + alpharettaCenter.lng;
+    let searchURL = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=shopping&latitude=' + alpharettaCenter.lat + '&longitude=' + alpharettaCenter.lng;
 
     yelpResponseListener = function() {
-        console.log(this)
-        console.log(JSON.parse(this.responseText));
+        let yelpJson = JSON.parse(this.responseText);
+        console.log(yelpJson['businesses'][1]['coordinates'])
     }
 
     xhttp.addEventListener("load", yelpResponseListener);
@@ -41,7 +40,7 @@ var map;
 
 document.getElementById('aboutBubble').style.visibility = 'hidden';
 document.getElementById('filterBubble').style.visibility = 'hidden';
-document.getElementById('favoriteBubble').style.visibility = 'hidden';
+document.getElementById('locationBubble').style.visibility = 'hidden';
 
 function showBubble(bubble) {
     if (bubble.childNodes[2].style.visibility == 'hidden') {
@@ -337,10 +336,27 @@ function initMap() {
         ],
 
     });
+    var contentString = '<h1>hello world</h1>';
+    var infowindow = new google.maps.InfoWindow({
+        content: contentString
+    });
+
+    var marker = new google.maps.Marker({
+        position: alpharettaCenter,
+        map: map,
+        title: 'center'
+    });
+    marker.addListener('click', function() {
+        infowindow.open(map, marker);
+    });
 }
 
-
-let mapViewModel = {
-    personName: 'James',
-    personAge: 123
-};
+window.onload = function () {
+    let locations = ko.observableArray();// Initially an empty array
+    locations.push({name: 'Papa Johns', category: 'food'});
+    locations.push({name: 'Chinese Place', category: 'food'}); // Adds the value and notifies observers
+    console.log(locations());
+    ko.applyBindings({
+        locations: locations(),
+    });
+}
