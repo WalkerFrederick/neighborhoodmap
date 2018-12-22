@@ -98,10 +98,12 @@ a {
     cursor: pointer;
     padding: 10px 0;
     min-width: 250px;
+    height: 400px;
+    overflow-y: scroll;
 }
 .locations-list li {
     border-top:1px solid white;
-    padding: 15px 0;
+    padding: 15px 10px;
     text-align: left;
 }
 .locations-list li:hover {
@@ -159,6 +161,8 @@ a {
     right: 15px;
 }
 
+
+
 .speech-bubble::after {
     border-right: 30px solid transparent;
     border-bottom: 30px solid #000;
@@ -174,3 +178,4 @@ a {
 .speech-bubble p:last-of-type {
     margin-bottom: 0;
 }
+

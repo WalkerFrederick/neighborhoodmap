@@ -11,32 +11,14 @@
 const YELP_KEY = 'Bearer TVtMc88xqJ8TXDzfM3_rMKVdDwtr3mZYelU2uQtL-vFOLw5UHR9WhMI7FTY0eR5xbt4XrOrWXL4dQntTjXPWQc5PLmvubaitZsm7_iNSJ0W2G9c0WCiTEYqKk2ocXHYx';
 const alpharettaCenter = {lat: 34.0754, lng: -84.2941};
 
-// Get Yelp Data
-function loadYelpData() {
-    let xhttp = new XMLHttpRequest();
-    let searchURL = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=shopping&latitude=' + alpharettaCenter.lat + '&longitude=' + alpharettaCenter.lng;
-
-    yelpResponseListener = function() {
-        let yelpJson = JSON.parse(this.responseText);
-        console.log(yelpJson['businesses'][1]['coordinates'])
-    }
-
-    xhttp.addEventListener("load", yelpResponseListener);
-    xhttp.open('GET', searchURL)
-    xhttp.setRequestHeader('Authorization', YELP_KEY)
-    xhttp.send();
-    xhttp.onload = function () {
-
-    }
-    xhttp.onerror = function () {
-    };
+String.prototype.replaceAll = function(str1, str2, ignore)
+{
+    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
 }
 
-loadYelpData();
 
 
-
-var map;
+let createMarker;
 
 document.getElementById('aboutBubble').style.visibility = 'hidden';
 document.getElementById('filterBubble').style.visibility = 'hidden';
@@ -51,6 +33,8 @@ function showBubble(bubble) {
         bubble.childNodes[2].style.visibility = 'hidden';
     }
 }
+
+let map;
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -336,27 +320,83 @@ function initMap() {
         ],
 
     });
-    var contentString = '<h1>hello world</h1>';
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
 
-    var marker = new google.maps.Marker({
-        position: alpharettaCenter,
-        map: map,
-        title: 'center'
-    });
-    marker.addListener('click', function() {
-        infowindow.open(map, marker);
-    });
+
+    createMarker = function (name, lat, lng) {
+        let contentString = '<h1>'+ name +'</h1>';
+        let infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+
+        var marker = new google.maps.Marker({
+            position: {lat: lat, lng: lng},
+            map: map,
+            icon: 'img/marker.svg',
+            title: 'center'
+        });
+        marker.addListener('click', function() {
+            infowindow.open(map, marker);
+        });
+    }
 }
 
+
+
 window.onload = function () {
-    let locations = ko.observableArray();// Initially an empty array
-    locations.push({name: 'Papa Johns', category: 'food'});
-    locations.push({name: 'Chinese Place', category: 'food'}); // Adds the value and notifies observers
-    console.log(locations());
-    ko.applyBindings({
-        locations: locations(),
-    });
+
+
+    function AppViewModel() {
+
+        let self = this;
+
+        loadYelpData(['hotel', 'food', 'shopping'])
+
+        self.locations = ko.observableArray();
+
+        self.addLocal = function () {
+            self.locations.push({name: "New at " + new Date()});
+        };
+
+        self.removeLocal = function () {
+            self.locations.remove(this);
+        }
+
+        // Get Yelp Data
+        function loadYelpData(searchTerms) {
+            c = 0;
+            for (term in searchTerms) {
+                let xhttp = new XMLHttpRequest();
+                let searchURL = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=' + searchTerms[c] + '&latitude=' + alpharettaCenter.lat + '&longitude=' + alpharettaCenter.lng;
+                xhttp.open('GET', searchURL)
+                xhttp.setRequestHeader('Authorization', YELP_KEY)
+                xhttp.send();
+                xhttp.onload = function () {
+                    let jsonResponse = JSON.parse(xhttp.response);
+                    for (i = 0; i < jsonResponse['businesses'].length; i++) {
+
+                        let name = jsonResponse['businesses'][i]['alias'].replaceAll('-', ' ')
+                        name = name.replaceAll('alpharetta', '')
+                        name = name.toUpperCase();
+
+                        self.locations.push({name: name, category: 'shopping'});
+
+                        let lng = jsonResponse['businesses'][i]['coordinates']['longitude'];
+                        let lat = jsonResponse['businesses'][i]['coordinates']['latitude'];
+                        createMarker(name, lat, lng);
+
+                    }
+                }
+                xhttp.onerror = function () {
+                    console.log('err')
+                }
+                c++;
+            }
+        }
+
+        loadYelpData(['hotel', 'food', 'shopping'])
+
+    }
+
+    ko.applyBindings(new AppViewModel());
+
 }
