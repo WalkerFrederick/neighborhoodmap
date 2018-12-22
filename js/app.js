@@ -40,6 +40,7 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: alpharettaCenter,
         zoom: 16,
+        minZoom: 12,
         disableDefaultUI: true,
         clickableIcons: false,
         styles: [
@@ -322,8 +323,12 @@ function initMap() {
     });
 
 
-    createMarker = function (name, lat, lng) {
-        let contentString = '<h1>'+ name +'</h1>';
+    createMarker = function (name, desc,imgUrl, lat, lng) {
+        let contentString = '<div class="info-window">' +
+            '<div style="background: url(' + imgUrl+ ');" class="info-window-img"></div>' +
+            '<h1 class="info-window-name">'+ name +'</h1>' +
+            '<p class="info-window-p"> Rating: ' + desc + '/5 Stars on Yelp</p>' +
+            '</div>';
         let infowindow = new google.maps.InfoWindow({
             content: contentString
         });
@@ -331,7 +336,7 @@ function initMap() {
         var marker = new google.maps.Marker({
             position: {lat: lat, lng: lng},
             map: map,
-            icon: 'img/marker.svg',
+            icon: 'img/markergreen.png',
             title: 'center'
         });
         marker.addListener('click', function() {
@@ -343,7 +348,6 @@ function initMap() {
 
 
 window.onload = function () {
-
 
     function AppViewModel() {
 
@@ -357,8 +361,12 @@ window.onload = function () {
             self.locations.push({name: "New at " + new Date()});
         };
 
-        self.removeLocal = function () {
+        self.removeLocal = function (place) {
             self.locations.remove(this);
+        }
+
+        self.openMarker = function () {
+            console.log('clicked')
         }
 
         // Get Yelp Data
@@ -374,15 +382,17 @@ window.onload = function () {
                     let jsonResponse = JSON.parse(xhttp.response);
                     for (i = 0; i < jsonResponse['businesses'].length; i++) {
 
-                        let name = jsonResponse['businesses'][i]['alias'].replaceAll('-', ' ')
+                        let name = jsonResponse['businesses'][i]['name'].replaceAll('-', ' ')
                         name = name.replaceAll('alpharetta', '')
                         name = name.toUpperCase();
 
-                        self.locations.push({name: name, category: 'shopping'});
+                        self.locations.push({name: name, category: searchTerms[c]});
 
+                        let desc = jsonResponse['businesses'][i]['rating'];
+                        let imgUrl = jsonResponse['businesses'][i]['image_url'];
                         let lng = jsonResponse['businesses'][i]['coordinates']['longitude'];
                         let lat = jsonResponse['businesses'][i]['coordinates']['latitude'];
-                        createMarker(name, lat, lng);
+                        createMarker(name, desc, imgUrl, lat, lng);
 
                     }
                 }

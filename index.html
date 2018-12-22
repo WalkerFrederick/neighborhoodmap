@@ -13,11 +13,11 @@
 <nav class="navbar">
     <h1>Alpharetta</h1>
     <ul class="nav-links">
-        <li onclick="showBubble(this)"><a class="nav-link"><img class="svg" src="img/like.svg">locations<img class="svg arrow" src="img/arrow.svg"></a>
+        <li onclick="showBubble(this)"><a class="nav-link"><img class="svg" src="img/marker1.svg">locations<img class="svg arrow" src="img/arrow.svg"></a>
             <div id="locationBubble" class="speech-bubble">
                 <p><strong>locations</strong></p>
                 <ul class="locations-list" data-bind="foreach: locations">
-                    <li data-bind="text: name"></li>
+                    <li data-bind="text: name, click: $parent.openMarker"></li>
                 </ul>
             </div>
         </li>
@@ -25,11 +25,9 @@
             <div id="filterBubble" class="speech-bubble">
                 <p><strong>Categories</strong></p>
                 <ul class="filter-list">
-                    <li>Papa Johns</li>
-                    <li>Papa Johns</li>
-                    <li>Papa Johns</li>
-                    <li>Papa Johns</li>
-                    <li>Papa Johns</li>
+                    <li>Food</li>
+                    <li>Shopping</li>
+                    <li>Hotels</li>
                 </ul>
             </div>
         </li>

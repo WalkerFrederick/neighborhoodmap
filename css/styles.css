@@ -179,3 +179,21 @@ a {
     margin-bottom: 0;
 }
 
+
+.info-window {
+
+}
+.info-window-img {
+    height: 200px;
+    width: 100%;
+    min-width: 350px;
+    border-radius: 5px;
+    background-size: cover;
+    background: initial no-repeat center center fixed
+}
+.info-window-name {
+    font-family: var(--roboto-mono);
+}
+.info-window-p {
+    font-size: 1.5rem;
+}
