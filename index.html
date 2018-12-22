@@ -25,7 +25,7 @@
             <div id="filterBubble" class="speech-bubble">
                 <p><strong>Categories</strong></p>
                 <ul class="filter-list" data-bind="foreach: filters">
-                    <li data-bind="text: filter"></li>
+                    <li data-bind="text: filter, click: $parent.filterLocations.bind(this)"></li>
                 </ul>
             </div>
         </li>

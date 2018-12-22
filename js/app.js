@@ -363,20 +363,31 @@ window.onload = function () {
 
         let self = this;
 
-        loadYelpData(['hotel', 'food', 'shopping'])
-
         self.locations = ko.observableArray();
+
+        self.locationsComplete = ko.observableArray();
 
         self.filters = ko.observableArray();
 
         self.markers = ko.observableArray();
 
-        self.addLocal = function () {
-            self.locations.push({name: "New at " + new Date()});
-        };
+        self.filterLocations = function (category) {
 
-        self.removeLocal = function (place) {
-            self.locations.remove(this);
+            console.log(self.locationsComplete())
+            for (var i = 0; i < self.locationsComplete().length; i++) {
+                self.locations()[i] = self.locationsComplete()[i]
+                console.log(self.locationsComplete())
+            }
+
+            for(x in self.locations()) {
+                self.locations.remove(function (item) {
+                    return item['category'] != category['filter']
+                })
+            }
+
+            console.log(self.locations())
+
+
         }
 
         self.openMarker = function (marker) {
@@ -404,6 +415,9 @@ window.onload = function () {
                         let category = jsonResponse['businesses'][i]['categories'][0]['title'];
 
                         self.locations.push({name: name, category: category, id: idCounter});
+                        self.locationsComplete.push({name: name, category: category, id: idCounter});
+
+
                         if (filterSeen.indexOf(category) == -1) {
                             self.filters.push({filter: category});
                             filterSeen.push(category)
@@ -419,11 +433,15 @@ window.onload = function () {
                         self.markers.push(createMarker(name, desc, imgUrl, lat, lng));
 
                     }
+
+                    //copy of my data so I can mutate the original and data-bound list
+
                 }
                 xhttp.onerror = function () {
                     console.log('err')
                 }
             }
+
         }
 
         loadYelpData(['hotel', 'food', 'shopping'])
@@ -431,6 +449,5 @@ window.onload = function () {
     }
 
     ko.applyBindings(new AppViewModel());
-
 
 }
