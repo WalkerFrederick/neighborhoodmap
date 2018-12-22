@@ -1,7 +1,5 @@
 //TODO
-//2. KnockoutJS baby
 //3. ERROR messages that are user facing
-//4. MAP markers
 //5. MOBILE MOBILE MOBILE
 
 
@@ -333,15 +331,22 @@ function initMap() {
             content: contentString
         });
 
-        var marker = new google.maps.Marker({
+        let marker = new google.maps.Marker({
             position: {lat: lat, lng: lng},
             map: map,
             icon: 'img/markergreen.png',
             title: 'center'
         });
+
+        google.maps.event.addListener(map, 'click', function() {
+            infowindow.close();
+        });
+
         marker.addListener('click', function() {
             infowindow.open(map, marker);
         });
+
+        return marker
     }
 }
 
@@ -357,6 +362,8 @@ window.onload = function () {
 
         self.locations = ko.observableArray();
 
+        self.markers = ko.observableArray();
+
         self.addLocal = function () {
             self.locations.push({name: "New at " + new Date()});
         };
@@ -365,14 +372,14 @@ window.onload = function () {
             self.locations.remove(this);
         }
 
-        self.openMarker = function () {
-            console.log('clicked')
+        self.openMarker = function (marker) {
+            google.maps.event.trigger(self.markers()[marker.id], 'click');
         }
 
         // Get Yelp Data
         function loadYelpData(searchTerms) {
-            c = 0;
-            for (term in searchTerms) {
+            let idCounter = 0;
+            for (c = 0; c < searchTerms.length; c++) {
                 let xhttp = new XMLHttpRequest();
                 let searchURL = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=' + searchTerms[c] + '&latitude=' + alpharettaCenter.lat + '&longitude=' + alpharettaCenter.lng;
                 xhttp.open('GET', searchURL)
@@ -385,21 +392,24 @@ window.onload = function () {
                         let name = jsonResponse['businesses'][i]['name'].replaceAll('-', ' ')
                         name = name.replaceAll('alpharetta', '')
                         name = name.toUpperCase();
+                        let category = searchTerms[c];
 
-                        self.locations.push({name: name, category: searchTerms[c]});
+                        self.locations.push({name: name, category: category, id: idCounter});
+
+                        idCounter++;
 
                         let desc = jsonResponse['businesses'][i]['rating'];
                         let imgUrl = jsonResponse['businesses'][i]['image_url'];
                         let lng = jsonResponse['businesses'][i]['coordinates']['longitude'];
                         let lat = jsonResponse['businesses'][i]['coordinates']['latitude'];
-                        createMarker(name, desc, imgUrl, lat, lng);
+
+                        self.markers.push(createMarker(name, desc, imgUrl, lat, lng));
 
                     }
                 }
                 xhttp.onerror = function () {
                     console.log('err')
                 }
-                c++;
             }
         }
 
@@ -408,5 +418,6 @@ window.onload = function () {
     }
 
     ko.applyBindings(new AppViewModel());
+
 
 }

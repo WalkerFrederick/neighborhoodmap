@@ -17,7 +17,7 @@
             <div id="locationBubble" class="speech-bubble">
                 <p><strong>locations</strong></p>
                 <ul class="locations-list" data-bind="foreach: locations">
-                    <li data-bind="text: name, click: $parent.openMarker"></li>
+                    <li data-bind="text: name, click: $parent.openMarker.bind(this)"></li>
                 </ul>
             </div>
         </li>
