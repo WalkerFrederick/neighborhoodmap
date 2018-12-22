@@ -24,10 +24,8 @@
         <li onclick="showBubble(this)"><a class="nav-link"><img class="svg" src="img/filter.svg">Filter<img class="svg arrow" src="img/arrow.svg"></a>
             <div id="filterBubble" class="speech-bubble">
                 <p><strong>Categories</strong></p>
-                <ul class="filter-list">
-                    <li>Food</li>
-                    <li>Shopping</li>
-                    <li>Hotels</li>
+                <ul class="filter-list" data-bind="foreach: filters">
+                    <li data-bind="text: filter"></li>
                 </ul>
             </div>
         </li>
@@ -52,9 +50,6 @@
 <!--  KNOCKOUT  -->
 <script src="js/knockout-3.4.2.js"></script>
 <script>
-
-    let myObservableArray = ko.observableArray();    // Initially an empty array
-    myObservableArray.push('Some value');            // Adds the value and notifies observers
 
 </script>
 <!--  GOOGLE MAPS  -->

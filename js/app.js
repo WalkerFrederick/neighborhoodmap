@@ -2,26 +2,25 @@
 //3. ERROR messages that are user facing
 //5. MOBILE MOBILE MOBILE
 
-
-
-//Google API Key AIzaSyAYCbLWQnPsQ4oVA-aKScMVuw-aHOsNOdA
-
-const YELP_KEY = 'Bearer TVtMc88xqJ8TXDzfM3_rMKVdDwtr3mZYelU2uQtL-vFOLw5UHR9WhMI7FTY0eR5xbt4XrOrWXL4dQntTjXPWQc5PLmvubaitZsm7_iNSJ0W2G9c0WCiTEYqKk2ocXHYx';
+//center of map/alpharetta
 const alpharettaCenter = {lat: 34.0754, lng: -84.2941};
 
+
+//used later for cleaning up names from yelp.
 String.prototype.replaceAll = function(str1, str2, ignore)
 {
     return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
 }
 
 
-
+//creating the 'createMarker' function here, defined in the initMap function
 let createMarker;
 
 document.getElementById('aboutBubble').style.visibility = 'hidden';
 document.getElementById('filterBubble').style.visibility = 'hidden';
 document.getElementById('locationBubble').style.visibility = 'hidden';
 
+//temp
 function showBubble(bubble) {
     if (bubble.childNodes[2].style.visibility == 'hidden') {
         bubble.childNodes[2].style.visibility = 'visible';
@@ -32,15 +31,21 @@ function showBubble(bubble) {
     }
 }
 
+//creating map
 let map;
 
+//init map
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: alpharettaCenter,
+        //defines the initial zoom level
         zoom: 16,
+        //defines the most you are allowed to zoom out
         minZoom: 12,
+        //disable the default google map controls
         disableDefaultUI: true,
         clickableIcons: false,
+        //styles for map, recommend you minimize for readability
         styles: [
             {
                 "elementType": "geometry",
@@ -320,7 +325,7 @@ function initMap() {
 
     });
 
-
+    //used later to create a marker on the map
     createMarker = function (name, desc,imgUrl, lat, lng) {
         let contentString = '<div class="info-window">' +
             '<div style="background: url(' + imgUrl+ ');" class="info-window-img"></div>' +
@@ -362,6 +367,8 @@ window.onload = function () {
 
         self.locations = ko.observableArray();
 
+        self.filters = ko.observableArray();
+
         self.markers = ko.observableArray();
 
         self.addLocal = function () {
@@ -378,7 +385,9 @@ window.onload = function () {
 
         // Get Yelp Data
         function loadYelpData(searchTerms) {
+            const YELP_KEY = 'Bearer TVtMc88xqJ8TXDzfM3_rMKVdDwtr3mZYelU2uQtL-vFOLw5UHR9WhMI7FTY0eR5xbt4XrOrWXL4dQntTjXPWQc5PLmvubaitZsm7_iNSJ0W2G9c0WCiTEYqKk2ocXHYx';
             let idCounter = 0;
+            let filterSeen = [];
             for (c = 0; c < searchTerms.length; c++) {
                 let xhttp = new XMLHttpRequest();
                 let searchURL = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=' + searchTerms[c] + '&latitude=' + alpharettaCenter.lat + '&longitude=' + alpharettaCenter.lng;
@@ -392,10 +401,14 @@ window.onload = function () {
                         let name = jsonResponse['businesses'][i]['name'].replaceAll('-', ' ')
                         name = name.replaceAll('alpharetta', '')
                         name = name.toUpperCase();
-                        let category = searchTerms[c];
+                        let category = jsonResponse['businesses'][i]['categories'][0]['title'];
 
                         self.locations.push({name: name, category: category, id: idCounter});
+                        if (filterSeen.indexOf(category) == -1) {
+                            self.filters.push({filter: category});
+                            filterSeen.push(category)
 
+                        }
                         idCounter++;
 
                         let desc = jsonResponse['businesses'][i]['rating'];
