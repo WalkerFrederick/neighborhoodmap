@@ -2,17 +2,17 @@
 const alpharettaCenter = {lat: 34.0754, lng: -84.2941};
 
 
-//used later for cleaning up names from yelp.
-String.prototype.replaceAll = function(str1, str2, ignore)
-{
-    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
-};
 
 
 //creating the marker functions here, defined in the initMap function. used later in my view model
 let createMarker;
 let delMarker;
 let restoreMapMarkers;
+
+let mapError = false;
+let onMapError = function () {
+    mapError = true;
+}
 
 
 
@@ -482,67 +482,74 @@ window.onload = function () {
         };
 
 
+
         // Get Yelp Data
         function loadYelpData(searchTerms) {
-            const YELP_KEY = 'Bearer TVtMc88xqJ8TXDzfM3_rMKVdDwtr3mZYelU2uQtL-vFOLw5UHR9WhMI7FTY0eR5xbt4XrOrWXL4dQntTjXPWQc5PLmvubaitZsm7_iNSJ0W2G9c0WCiTEYqKk2ocXHYx';
-            let idCounter = 0;
-            let filterSeen = [];
-            for (c = 0; c < searchTerms.length; c++) {
-                let xhttp = new XMLHttpRequest();
-                let searchURL = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=' + searchTerms[c] + '&latitude=' + alpharettaCenter.lat + '&longitude=' + alpharettaCenter.lng;
-                xhttp.open('GET', searchURL);
-                xhttp.setRequestHeader('Authorization', YELP_KEY);
+            //if google maps didn't load, we don't try to get yelp data
+            if (mapError == true) {
+                self.errorMessage('<div class="error-msg"><span>:(</span>\n' +
+                    '    <h1>Sorry, There was a problem loading the google maps data.</h1>\n' +
+                    '    <h2>Please try again later!</h2></div>')
+            } else {
 
-                xhttp.onreadystatechange = function () {
-                    if(xhttp.status !== 200) {
-                        //if an error occurs, display error message
+                const YELP_KEY = 'Bearer TVtMc88xqJ8TXDzfM3_rMKVdDwtr3mZYelU2uQtL-vFOLw5UHR9WhMI7FTY0eR5xbt4XrOrWXL4dQntTjXPWQc5PLmvubaitZsm7_iNSJ0W2G9c0WCiTEYqKk2ocXHYx';
+                let idCounter = 0;
+                let filterSeen = [];
+                for (c = 0; c < searchTerms.length; c++) {
+                    let xhttp = new XMLHttpRequest();
+                    let searchURL = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=' + searchTerms[c] + '&latitude=' + alpharettaCenter.lat + '&longitude=' + alpharettaCenter.lng;
+                    xhttp.open('GET', searchURL);
+                    xhttp.setRequestHeader('Authorization', YELP_KEY);
+
+                    xhttp.onreadystatechange = function () {
+                        if (xhttp.status !== 200) {
+                            //if an error occurs, display error message
+                            self.errorMessage('<div class="error-msg"><span>:(</span>\n' +
+                                '    <h1>Sorry, There was a problem loading some data.</h1>\n' +
+                                '    <h2>Please try again later!</h2></div>')
+                        }
+                    };
+
+                    xhttp.send();
+                    xhttp.onload = function () {
+                        let jsonResponse = JSON.parse(xhttp.response);
+                        for (i = 0; i < jsonResponse['businesses'].length; i++) {
+                            let name = jsonResponse['businesses'][i]['name'];
+                            name = name.toUpperCase();
+                            let category = jsonResponse['businesses'][i]['categories'][0]['title'];
+
+                            self.locations.push({name: name, category: category, id: idCounter});
+                            self.locationsComplete.push({name: name, category: category, id: idCounter});
+
+
+                            if (filterSeen.indexOf(category) == -1) {
+                                self.filters.push({filter: category});
+                                filterSeen.push(category)
+
+                            }
+                            idCounter++;
+
+                            let desc = jsonResponse['businesses'][i]['rating'];
+                            let imgUrl = jsonResponse['businesses'][i]['image_url'];
+                            let lng = jsonResponse['businesses'][i]['coordinates']['longitude'];
+                            let lat = jsonResponse['businesses'][i]['coordinates']['latitude'];
+
+                            //pushes markers an observable
+                            self.markers.push(createMarker(name, desc, imgUrl, lat, lng));
+
+                        }
+
+                        //if everything goes well, this gets rid of my loading message
+                        self.errorMessage('')
+
+                    };
+                    xhttp.onerror = function () {
                         self.errorMessage('<div class="error-msg"><span>:(</span>\n' +
                             '    <h1>Sorry, There was a problem loading some data.</h1>\n' +
                             '    <h2>Please try again later!</h2></div>')
                     }
-                };
-
-                xhttp.send();
-                xhttp.onload = function () {
-                    let jsonResponse = JSON.parse(xhttp.response);
-                    for (i = 0; i < jsonResponse['businesses'].length; i++) {
-                        let name = jsonResponse['businesses'][i]['name'].replaceAll('-', ' ');
-                        name = name.replaceAll('alpharetta', '');
-                        name = name.toUpperCase();
-                        let category = jsonResponse['businesses'][i]['categories'][0]['title'];
-
-                        self.locations.push({name: name, category: category, id: idCounter});
-                        self.locationsComplete.push({name: name, category: category, id: idCounter});
-
-
-                        if (filterSeen.indexOf(category) == -1) {
-                            self.filters.push({filter: category});
-                            filterSeen.push(category)
-
-                        }
-                        idCounter++;
-
-                        let desc = jsonResponse['businesses'][i]['rating'];
-                        let imgUrl = jsonResponse['businesses'][i]['image_url'];
-                        let lng = jsonResponse['businesses'][i]['coordinates']['longitude'];
-                        let lat = jsonResponse['businesses'][i]['coordinates']['latitude'];
-
-                        //pushes markers an observable
-                        self.markers.push(createMarker(name, desc, imgUrl, lat, lng));
-
-                    }
-
-                    //if everything goes well, this gets rid of my loading message
-                    self.errorMessage('')
-
-                };
-                xhttp.onerror = function () {
-                    self.errorMessage('<div class="error-msg"><span>:(</span>\n' +
-                        '    <h1>Sorry, There was a problem loading some data.</h1>\n' +
-                        '    <h2>Please try again later!</h2></div>')
                 }
             }
-
         }
         //starts the process of getting data, defines my three search terms for yelp.
         loadYelpData(['hotel', 'food', 'shopping'])
