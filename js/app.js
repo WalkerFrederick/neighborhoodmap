@@ -15,6 +15,8 @@ String.prototype.replaceAll = function(str1, str2, ignore)
 
 //creating the 'createMarker' function here, defined in the initMap function
 let createMarker;
+let delMarker;
+let restoreMapMarkers;
 
 document.getElementById('aboutBubble').style.visibility = 'hidden';
 document.getElementById('filterBubble').style.visibility = 'hidden';
@@ -33,6 +35,7 @@ function showBubble(bubble) {
 
 //creating map
 let map;
+let mapMarkers = [];
 
 //init map
 function initMap() {
@@ -343,6 +346,8 @@ function initMap() {
             title: 'center'
         });
 
+        mapMarkers.push(marker);
+
         google.maps.event.addListener(map, 'click', function() {
             infowindow.close();
         });
@@ -353,6 +358,22 @@ function initMap() {
 
         return marker
     }
+
+    restoreMapMarkers = function(map) {
+        let TMPmapMarkers = mapMarkers;
+        for (var i = 0; i < TMPmapMarkers.length; i++) {
+            TMPmapMarkers[i].setMap(map);
+        }
+    }
+
+
+    delMarker = function (id) {
+        marker = mapMarkers[id];
+        marker.setMap(null);
+    }
+
+
+
 }
 
 
@@ -373,19 +394,22 @@ window.onload = function () {
 
         self.filterLocations = function (category) {
 
-            console.log(self.locationsComplete())
+            restoreMapMarkers(map);
+
+
             for (var i = 0; i < self.locationsComplete().length; i++) {
                 self.locations()[i] = self.locationsComplete()[i]
-                console.log(self.locationsComplete())
             }
 
             for(x in self.locations()) {
                 self.locations.remove(function (item) {
-                    return item['category'] != category['filter']
+                    if(item['category'] != category['filter']){
+                        delMarker(item['id']);
+                        return item['category'] != category['filter']
+                    }
+
                 })
             }
-
-            console.log(self.locations())
 
 
         }
@@ -393,6 +417,7 @@ window.onload = function () {
         self.openMarker = function (marker) {
             google.maps.event.trigger(self.markers()[marker.id], 'click');
         }
+
 
         // Get Yelp Data
         function loadYelpData(searchTerms) {
