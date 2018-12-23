@@ -6,5 +6,4 @@ and [Google](https://cloud.google.com/maps-platform/.com) for the map data!
 
 ## To view, visit www.urdev.xyz/maps or download files and just open index.html
 
-notes: Easiest way to close all open InfoWindows is just to click on the map, otherwise you can click the x at the top right of the InfoWindow
-
+notes: I'm using heroku's cors anywhere tool, it went offline for brief momnent on Dec 23rd. Page might take longer to load then normal because of it.
