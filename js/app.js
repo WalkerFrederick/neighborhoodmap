@@ -345,6 +345,8 @@ function initMap() {
             marker.setIcon('img/markerred.png');
             if (marker.getAnimation() !== null) {
                 marker.setAnimation(null);
+                marker.setIcon('img/markergreen.png');
+                infowindow.close(map, marker);
             } else {
                 marker.setAnimation(google.maps.Animation.BOUNCE);
             }

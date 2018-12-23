@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b7c0b025-ecf2-4823-be14-1861d0d5ae81" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/app.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -47,17 +45,17 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="2399" />
-          <entry key="html" value="1826" />
-          <entry key="js" value="8811" />
-          <entry key="txt" value="1039" />
+          <entry key="html" value="1864" />
+          <entry key="js" value="9182" />
+          <entry key="txt" value="1176" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="2399" />
-          <entry key="HTML" value="1843" />
-          <entry key="JavaScript" value="8794" />
-          <entry key="PLAIN_TEXT" value="1039" />
+          <entry key="HTML" value="1881" />
+          <entry key="JavaScript" value="9165" />
+          <entry key="PLAIN_TEXT" value="1176" />
         </counts>
       </usages-collector>
     </session>
@@ -67,8 +65,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="29" selection-start-line="29" selection-end-line="29" />
+            <state relative-caret-position="304">
+              <caret line="64" column="29" lean-forward="true" selection-start-line="64" selection-start-column="29" selection-end-line="64" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -85,10 +83,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="456" column="33" selection-start-line="456" selection-start-column="33" selection-end-line="456" selection-end-column="33" />
+            <state relative-caret-position="256">
+              <caret line="348" column="46" selection-start-line="348" selection-start-column="46" selection-end-line="348" selection-end-column="46" />
               <folding>
-                <element signature="e#1486#9243#0" />
+                <element signature="e#1144#8901#0" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="e#11096#11164#0" />
               </folding>
@@ -132,9 +130,11 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="x" value="-330" />
+    <option name="y" value="-720" />
+    <option name="width" value="1280" />
+    <option name="height" value="720" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -195,7 +195,7 @@
       <workItem from="1545247400126" duration="25469000" />
       <workItem from="1545412813237" duration="4654000" />
       <workItem from="1545428382934" duration="23468000" />
-      <workItem from="1545501036010" duration="22545000" />
+      <workItem from="1545501036010" duration="25312000" />
     </task>
     <task id="LOCAL-00001" summary="Navbar about button now opens the 'about project' dialog box">
       <created>1545357325967</created>
@@ -302,14 +302,28 @@
       <option name="project" value="LOCAL" />
       <updated>1545589964052</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="added an always present 'All' filter that gives you original list">
+      <created>1545598090640</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1545598090640</updated>
+    </task>
+    <task id="LOCAL-00017" summary="if google maps doesn't load, then yelp won't even try">
+      <created>1545600719685</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1545600719685</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76136000" />
+    <option name="totallyTimeSpent" value="78903000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1280" height="800" extended-state="6" />
+    <frame x="-330" y="-720" width="1280" height="720" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28038126" />
@@ -324,9 +338,9 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.19863014" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.22307692" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.32923076" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.3276923" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -354,7 +368,9 @@
     <MESSAGE value="icons now turn red when clicked or focused via dropdown" />
     <MESSAGE value="navbar open and close now an observable, all desired functionality finished!" />
     <MESSAGE value="fixed issue where markers wouldn't change on a second click, also added bounce to the selected icon" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed issue where markers wouldn't change on a second click, also added bounce to the selected icon" />
+    <MESSAGE value="added an always present 'All' filter that gives you original list" />
+    <MESSAGE value="if google maps doesn't load, then yelp won't even try" />
+    <option name="LAST_COMMIT_MESSAGE" value="if google maps doesn't load, then yelp won't even try" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/package.json" />
@@ -368,13 +384,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/styles.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-114">
@@ -382,12 +391,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="64" column="29" lean-forward="true" selection-start-line="64" selection-start-column="29" selection-end-line="64" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="456" column="33" selection-start-line="456" selection-start-column="33" selection-end-line="456" selection-end-column="33" />
+        <state relative-caret-position="256">
+          <caret line="348" column="46" selection-start-line="348" selection-start-column="46" selection-end-line="348" selection-end-column="46" />
           <folding>
-            <element signature="e#1486#9243#0" />
+            <element signature="e#1144#8901#0" />
             <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="e#11096#11164#0" />
           </folding>
