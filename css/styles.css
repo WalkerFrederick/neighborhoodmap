@@ -208,7 +208,9 @@ a {
     background: whitesmoke;
     padding: 15px;
     border-radius: 5px;
-    box-shadow: ;
+    -webkit-box-shadow: 0px 1px 30px 4px rgba(125,125,125,0.71);
+    -moz-box-shadow: 0px 1px 30px 4px rgba(125,125,125,0.71);
+    box-shadow: 0px 1px 30px 4px rgba(125,125,125,0.71);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -221,3 +223,79 @@ a {
     color: var(--red);
 }
 
+.google-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    z-index: -10;
+}
+
+.lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 51px;
+    height: 51px;
+    margin: 6px;
+    border: 6px solid #000;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #000 transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+@media only screen and (max-width: 800px) {
+    .nav-link-name{
+        display: none;
+    }
+    .arrow {
+        display: none;
+    }
+    #aboutBubble {
+        top: 70px;
+        right: 15px;
+    }
+
+    #filterBubble {
+        top: 70px;
+        right: 15px;
+    }
+    .speech-bubble::after {
+        border-right: none;
+        border-bottom: none;
+    }
+}
+@media only screen and (max-width: 400px) {
+    .navbar h1 {
+        font-size: .8rem;
+    }
+    .svg {
+        height: 16px;
+    }
+
+}

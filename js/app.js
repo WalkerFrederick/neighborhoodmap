@@ -350,10 +350,15 @@ function initMap() {
 
         google.maps.event.addListener(map, 'click', function() {
             infowindow.close();
+            for (var i = 0; i < mapMarkers.length; i++) {
+                mapMarkers[i].setIcon('img/markergreen.png');
+            }
         });
 
         marker.addListener('click', function() {
             infowindow.open(map, marker);
+            marker.setIcon('img/markerred.png');
+
         });
 
         return marker
@@ -392,6 +397,11 @@ window.onload = function () {
 
         self.markers = ko.observableArray();
 
+        self.errorMessage = ko.observable('' +
+            '<div class="error-msg"><span><div class="lds-ring"><div></div><div></div><div></div><div></div></div></span>' +
+            '<h1>Hold On...</h1>' +
+            '<h2>Page is loading!</h2></div>');
+
         self.filterLocations = function (category) {
 
             restoreMapMarkers(map);
@@ -415,7 +425,10 @@ window.onload = function () {
         }
 
         self.openMarker = function (marker) {
+            mapMarkers[marker['id']].setIcon('img/markerred.png');
+
             google.maps.event.trigger(self.markers()[marker.id], 'click');
+
         }
 
 
@@ -429,6 +442,15 @@ window.onload = function () {
                 let searchURL = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=' + searchTerms[c] + '&latitude=' + alpharettaCenter.lat + '&longitude=' + alpharettaCenter.lng;
                 xhttp.open('GET', searchURL)
                 xhttp.setRequestHeader('Authorization', YELP_KEY)
+
+                xhttp.onreadystatechange = function () {
+                    if(xhttp.status !== 200) {
+                        self.errorMessage('<div class="error-msg"><span>:(</span>\n' +
+                            '    <h1>Sorry, There was a problem loading some data.</h1>\n' +
+                            '    <h2>Please try again later!</h2></div>')
+                    }
+                };
+
                 xhttp.send();
                 xhttp.onload = function () {
                     let jsonResponse = JSON.parse(xhttp.response);
@@ -459,11 +481,14 @@ window.onload = function () {
 
                     }
 
-                    //copy of my data so I can mutate the original and data-bound list
+
+                    self.errorMessage('')
 
                 }
                 xhttp.onerror = function () {
-                    console.log('err')
+                    self.errorMessage('<div class="error-msg"><span>:(</span>\n' +
+                        '    <h1>Sorry, There was a problem loading some data.</h1>\n' +
+                        '    <h2>Please try again later!</h2></div>')
                 }
             }
 

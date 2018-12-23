@@ -13,7 +13,7 @@
 <nav class="navbar">
     <h1>Alpharetta</h1>
     <ul class="nav-links">
-        <li onclick="showBubble(this)"><a class="nav-link"><img class="svg" src="img/marker1.svg">locations<img class="svg arrow" src="img/arrow.svg"></a>
+        <li onclick="showBubble(this)"><a class="nav-link"><img class="svg" src="img/marker1.svg"><span class="nav-link-name">Locations</span><img class="svg arrow" src="img/arrow.svg"></a>
             <div id="locationBubble" class="speech-bubble">
                 <p><strong>locations</strong></p>
                 <ul class="locations-list" data-bind="foreach: locations">
@@ -21,7 +21,7 @@
                 </ul>
             </div>
         </li>
-        <li onclick="showBubble(this)"><a class="nav-link"><img class="svg" src="img/filter.svg">Filter<img class="svg arrow" src="img/arrow.svg"></a>
+        <li onclick="showBubble(this)"><a class="nav-link"><img class="svg" src="img/filter.svg"><span class="nav-link-name">Filter</span><img class="svg arrow" src="img/arrow.svg"></a>
             <div id="filterBubble" class="speech-bubble">
                 <p><strong>Categories</strong></p>
                 <ul class="filter-list" data-bind="foreach: filters">
@@ -29,7 +29,7 @@
                 </ul>
             </div>
         </li>
-        <li onclick="showBubble(this)"><a class="nav-link"><img class="svg" src="img/info.svg">About<img class="svg arrow" src="img/arrow.svg"></a>
+        <li onclick="showBubble(this)"><a class="nav-link"><img class="svg" src="img/info.svg"><span class="nav-link-name">About</span><img class="svg arrow" src="img/arrow.svg"></a>
             <div id="aboutBubble" class="speech-bubble">
                 <p><strong>About This Project</strong></p>
                 <p>This application was built for the Udacity Front-End Nanodegree program. It was built by
@@ -43,12 +43,11 @@
 
 </nav>
 
+<div class="google-loading"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>
+
 <div id="map"></div>
 
-<div class="error-msg">
-    <span>:(</span>
-    <h1>Sorry, There was a problem loading some data.</h1>
-    <h2>Please try again later!</h2>
+<div data-bind="html: errorMessage">
 
 </div>
 
