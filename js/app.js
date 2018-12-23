@@ -1,6 +1,3 @@
-//TODO
-//3. ERROR messages that are user facing
-//5. MOBILE MOBILE MOBILE
 
 //center of map/alpharetta
 const alpharettaCenter = {lat: 34.0754, lng: -84.2941};
@@ -13,31 +10,18 @@ String.prototype.replaceAll = function(str1, str2, ignore)
 }
 
 
-//creating the 'createMarker' function here, defined in the initMap function
+//creating the marker functions here, defined in the initMap function. used later in my view model
 let createMarker;
 let delMarker;
 let restoreMapMarkers;
 
-document.getElementById('aboutBubble').style.visibility = 'hidden';
-document.getElementById('filterBubble').style.visibility = 'hidden';
-document.getElementById('locationBubble').style.visibility = 'hidden';
 
-//temp
-function showBubble(bubble) {
-    if (bubble.childNodes[2].style.visibility == 'hidden') {
-        bubble.childNodes[2].style.visibility = 'visible';
-
-    }
-    else {
-        bubble.childNodes[2].style.visibility = 'hidden';
-    }
-}
 
 //creating map
 let map;
 let mapMarkers = [];
 
-//init map
+//init map and defining the marker related functions
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: alpharettaCenter,
@@ -382,9 +366,10 @@ function initMap() {
 }
 
 
-
+//wait for page to load
 window.onload = function () {
 
+    //knockoutJS view model
     function AppViewModel() {
 
         let self = this;
@@ -397,13 +382,55 @@ window.onload = function () {
 
         self.markers = ko.observableArray();
 
+
+        //this was used for navbar class toggling, definitely revisiting this mess later
+        self.aboutBubble = ko.observable('hidden');
+        self.filterBubble = ko.observable('hidden');
+        self.locationBubble = ko.observable('hidden');
+        self.aboutStatus = ko.observable('hidden');
+        self.filterStatus = ko.observable('hidden');
+        self.locationStatus = ko.observable('hidden');
+
+        //Initializes as a loading popup,
+        // displays error if error occurs when getting data,
+        // displays nothing if data loads correctly
         self.errorMessage = ko.observable('' +
             '<div class="error-msg"><span><div class="lds-ring"><div></div><div></div><div></div><div></div></div></span>' +
             '<h1>Hold On...</h1>' +
             '<h2>Page is loading!</h2></div>');
 
+        //called by my nav buttons
+        self.openBubble = function (bubble) {
+            if(bubble == 'about'){
+                if(self.aboutBubble() == 'visible'){self.aboutBubble('hidden')}
+                else {self.aboutBubble('visible')}
+            }
+            else if(bubble == 'locations'){
+                if(self.locationBubble() == 'visible'){self.locationBubble('hidden')}
+                else {self.locationBubble('visible')}
+            }
+            else if(bubble == 'filter'){
+                if(self.filterBubble() == 'visible'){self.filterBubble('hidden')}
+                else {self.filterBubble('visible')}
+            }
+        }
+
+        self.aboutStatus = ko.pureComputed(function() {
+            return self.aboutBubble() == 'hidden' ? "hidden" : "visible";
+        }, self);
+
+        self.filterStatus = ko.pureComputed(function() {
+            return self.filterBubble() == 'hidden' ? "hidden" : "visible";
+        }, self);
+
+        self.locationStatus = ko.pureComputed(function() {
+            return self.locationBubble() == 'hidden' ? "hidden" : "visible";
+        }, self);
+
+        //
         self.filterLocations = function (category) {
 
+            //in case this is not the first filter, we will restore the markers to the original state
             restoreMapMarkers(map);
 
 
@@ -424,6 +451,7 @@ window.onload = function () {
 
         }
 
+        //opens a marker if clicked from locations drop down
         self.openMarker = function (marker) {
             mapMarkers[marker['id']].setIcon('img/markerred.png');
 
@@ -445,6 +473,7 @@ window.onload = function () {
 
                 xhttp.onreadystatechange = function () {
                     if(xhttp.status !== 200) {
+                        //if an error occurs, display error message
                         self.errorMessage('<div class="error-msg"><span>:(</span>\n' +
                             '    <h1>Sorry, There was a problem loading some data.</h1>\n' +
                             '    <h2>Please try again later!</h2></div>')
@@ -455,7 +484,6 @@ window.onload = function () {
                 xhttp.onload = function () {
                     let jsonResponse = JSON.parse(xhttp.response);
                     for (i = 0; i < jsonResponse['businesses'].length; i++) {
-
                         let name = jsonResponse['businesses'][i]['name'].replaceAll('-', ' ')
                         name = name.replaceAll('alpharetta', '')
                         name = name.toUpperCase();
@@ -477,11 +505,12 @@ window.onload = function () {
                         let lng = jsonResponse['businesses'][i]['coordinates']['longitude'];
                         let lat = jsonResponse['businesses'][i]['coordinates']['latitude'];
 
+                        //pushes markers an observable
                         self.markers.push(createMarker(name, desc, imgUrl, lat, lng));
 
                     }
 
-
+                    //if everything goes well, this gets rid of my loading message
                     self.errorMessage('')
 
                 }
@@ -493,7 +522,7 @@ window.onload = function () {
             }
 
         }
-
+        //starts the process of getting data, defines my three search terms for yelp.
         loadYelpData(['hotel', 'food', 'shopping'])
 
     }

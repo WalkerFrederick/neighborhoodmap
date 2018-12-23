@@ -13,24 +13,24 @@
 <nav class="navbar">
     <h1>Alpharetta</h1>
     <ul class="nav-links">
-        <li onclick="showBubble(this)"><a class="nav-link"><img class="svg" src="img/marker1.svg"><span class="nav-link-name">Locations</span><img class="svg arrow" src="img/arrow.svg"></a>
-            <div id="locationBubble" class="speech-bubble">
+        <li data-bind="click: openBubble.bind($data,'locations')"><a class="nav-link"><img class="svg" src="img/marker1.svg"><span class="nav-link-name">Locations</span><img class="svg arrow" src="img/arrow.svg"></a>
+            <div data-bind="css: locationStatus" id="locationBubble" class="speech-bubble">
                 <p><strong>locations</strong></p>
                 <ul class="locations-list" data-bind="foreach: locations">
                     <li data-bind="text: name, click: $parent.openMarker.bind(this)"></li>
                 </ul>
             </div>
         </li>
-        <li onclick="showBubble(this)"><a class="nav-link"><img class="svg" src="img/filter.svg"><span class="nav-link-name">Filter</span><img class="svg arrow" src="img/arrow.svg"></a>
-            <div id="filterBubble" class="speech-bubble">
+        <li data-bind="click: openBubble.bind($data,'filter')"><a class="nav-link"><img class="svg" src="img/filter.svg"><span class="nav-link-name">Filter</span><img class="svg arrow" src="img/arrow.svg"></a>
+            <div data-bind="css: filterStatus" id="filterBubble" class="speech-bubble">
                 <p><strong>Categories</strong></p>
                 <ul class="filter-list" data-bind="foreach: filters">
                     <li data-bind="text: filter, click: $parent.filterLocations.bind(this)"></li>
                 </ul>
             </div>
         </li>
-        <li onclick="showBubble(this)"><a class="nav-link"><img class="svg" src="img/info.svg"><span class="nav-link-name">About</span><img class="svg arrow" src="img/arrow.svg"></a>
-            <div id="aboutBubble" class="speech-bubble">
+        <li data-bind="click: openBubble.bind($data,'about')"><a class="nav-link"><img class="svg" src="img/info.svg"><span class="nav-link-name">About</span><img class="svg arrow" src="img/arrow.svg"></a>
+            <div data-bind="css: aboutStatus" id="aboutBubble" class="speech-bubble">
                 <p><strong>About This Project</strong></p>
                 <p>This application was built for the Udacity Front-End Nanodegree program. It was built by
                     <a target="_blank" href="https://walkerfrederick.com/">Walker Frederick</a> and if you want to see
