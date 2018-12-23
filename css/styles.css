@@ -296,10 +296,6 @@ a {
         width: 90%;
     }
 
-    .speech-bubble::after {
-        border-right: none;
-        border-bottom: none;
-    }
 }
 @media only screen and (max-width: 400px) {
 

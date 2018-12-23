@@ -1,4 +1,3 @@
-
 //center of map/alpharetta
 const alpharettaCenter = {lat: 34.0754, lng: -84.2941};
 
@@ -7,7 +6,7 @@ const alpharettaCenter = {lat: 34.0754, lng: -84.2941};
 String.prototype.replaceAll = function(str1, str2, ignore)
 {
     return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
-}
+};
 
 
 //creating the marker functions here, defined in the initMap function. used later in my view model
@@ -327,13 +326,15 @@ function initMap() {
             position: {lat: lat, lng: lng},
             map: map,
             icon: 'img/markergreen.png',
-            title: 'center'
+            animation: google.maps.Animation.DROP,
+            title: 'center',
         });
 
         mapMarkers.push(marker);
 
         google.maps.event.addListener(map, 'click', function() {
             infowindow.close();
+            marker.setAnimation(null);
             for (var i = 0; i < mapMarkers.length; i++) {
                 mapMarkers[i].setIcon('img/markergreen.png');
             }
@@ -342,18 +343,29 @@ function initMap() {
         marker.addListener('click', function() {
             infowindow.open(map, marker);
             marker.setIcon('img/markerred.png');
+            if (marker.getAnimation() !== null) {
+                marker.setAnimation(null);
+            } else {
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+            }
 
         });
 
+        google.maps.event.addListener(infowindow, "closeclick", function()
+        {
+            marker.setAnimation(null);
+            marker.setIcon('img/markergreen.png');
+        });
+
         return marker
-    }
+    };
 
     restoreMapMarkers = function(map) {
         let TMPmapMarkers = mapMarkers;
         for (var i = 0; i < TMPmapMarkers.length; i++) {
             TMPmapMarkers[i].setMap(map);
         }
-    }
+    };
 
 
     delMarker = function (id) {
@@ -413,7 +425,7 @@ window.onload = function () {
                 if(self.filterBubble() == 'visible'){self.filterBubble('hidden')}
                 else {self.filterBubble('visible')}
             }
-        }
+        };
 
         self.aboutStatus = ko.pureComputed(function() {
             return self.aboutBubble() == 'hidden' ? "hidden" : "visible";
@@ -449,7 +461,7 @@ window.onload = function () {
             }
 
 
-        }
+        };
 
         //opens a marker if clicked from locations drop down
         self.openMarker = function (marker) {
@@ -457,7 +469,7 @@ window.onload = function () {
 
             google.maps.event.trigger(self.markers()[marker.id], 'click');
 
-        }
+        };
 
 
         // Get Yelp Data
@@ -468,8 +480,8 @@ window.onload = function () {
             for (c = 0; c < searchTerms.length; c++) {
                 let xhttp = new XMLHttpRequest();
                 let searchURL = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=' + searchTerms[c] + '&latitude=' + alpharettaCenter.lat + '&longitude=' + alpharettaCenter.lng;
-                xhttp.open('GET', searchURL)
-                xhttp.setRequestHeader('Authorization', YELP_KEY)
+                xhttp.open('GET', searchURL);
+                xhttp.setRequestHeader('Authorization', YELP_KEY);
 
                 xhttp.onreadystatechange = function () {
                     if(xhttp.status !== 200) {
@@ -484,8 +496,8 @@ window.onload = function () {
                 xhttp.onload = function () {
                     let jsonResponse = JSON.parse(xhttp.response);
                     for (i = 0; i < jsonResponse['businesses'].length; i++) {
-                        let name = jsonResponse['businesses'][i]['name'].replaceAll('-', ' ')
-                        name = name.replaceAll('alpharetta', '')
+                        let name = jsonResponse['businesses'][i]['name'].replaceAll('-', ' ');
+                        name = name.replaceAll('alpharetta', '');
                         name = name.toUpperCase();
                         let category = jsonResponse['businesses'][i]['categories'][0]['title'];
 
@@ -513,7 +525,7 @@ window.onload = function () {
                     //if everything goes well, this gets rid of my loading message
                     self.errorMessage('')
 
-                }
+                };
                 xhttp.onerror = function () {
                     self.errorMessage('<div class="error-msg"><span>:(</span>\n' +
                         '    <h1>Sorry, There was a problem loading some data.</h1>\n' +
@@ -529,4 +541,4 @@ window.onload = function () {
 
     ko.applyBindings(new AppViewModel());
 
-}
+};
