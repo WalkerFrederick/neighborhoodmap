@@ -164,14 +164,7 @@ a {
 
 
 
-.speech-bubble::after {
-    border-right: 30px solid transparent;
-    border-bottom: 30px solid #000;
-    top: -20px;
-    content: "";
-    position: absolute;
-    right: 20px;
-}
+
 
 .speech-bubble p {
     margin: 0 0 10px;

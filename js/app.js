@@ -314,7 +314,7 @@ function initMap() {
     //used later to create a marker on the map
     createMarker = function (name, desc,imgUrl, lat, lng) {
         let contentString = '<div class="info-window">' +
-            '<div style="background: url(' + imgUrl+ ');" class="info-window-img"></div>' +
+            '<div style="background-image: url(' + imgUrl+ ');" class="info-window-img"></div>' +
             '<h1 class="info-window-name">'+ name +'</h1>' +
             '<p class="info-window-p"> Rating: ' + desc + '/5 Stars on Yelp</p>' +
             '</div>';
@@ -390,7 +390,9 @@ window.onload = function () {
 
         self.locationsComplete = ko.observableArray();
 
-        self.filters = ko.observableArray();
+        self.filters = ko.observableArray(
+            [{filter: 'All'}]
+        );
 
         self.markers = ko.observableArray();
 
@@ -441,23 +443,31 @@ window.onload = function () {
 
         //
         self.filterLocations = function (category) {
+            if (category['filter'] == 'All'){
+                restoreMapMarkers(map);
+                self.locations([]);
+                for (var i = 0; i < self.locationsComplete().length; i++) {
+                    self.locations.push(self.locationsComplete()[i])
 
-            //in case this is not the first filter, we will restore the markers to the original state
-            restoreMapMarkers(map);
+                }
+            } else {
+                //in case this is not the first filter, we will restore the markers to the original state
+                restoreMapMarkers(map);
 
+                self.locations([]);
+                for (var i = 0; i < self.locationsComplete().length; i++) {
+                    self.locations.push(self.locationsComplete()[i])
+                }
 
-            for (var i = 0; i < self.locationsComplete().length; i++) {
-                self.locations()[i] = self.locationsComplete()[i]
-            }
+                for(x in self.locations()) {
+                    self.locations.remove(function (item) {
+                        if(item['category'] != category['filter']){
+                            delMarker(item['id']);
+                            return item['category'] != category['filter']
+                        }
 
-            for(x in self.locations()) {
-                self.locations.remove(function (item) {
-                    if(item['category'] != category['filter']){
-                        delMarker(item['id']);
-                        return item['category'] != category['filter']
-                    }
-
-                })
+                    })
+                }
             }
 
 
