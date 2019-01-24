@@ -8,7 +8,7 @@ and [Google](https://cloud.google.com/maps-platform/.com) for the map data!
 
 *notes: I'm using heroku's cors anywhere tool, it went offline for brief momnent on Dec 23rd. Page might take longer to load then normal because of it.*
 
-![ScreenShot of maps app](/screenshots/MapsScreenshot.jpg?raw=true)
+![ScreenShot of maps app](/MapsScreenshot.jpg?raw=true)
 
 
 
